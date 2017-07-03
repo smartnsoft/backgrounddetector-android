@@ -328,7 +328,7 @@ The Android Team @Smart&Soft, software agency [http://www.smartnsoft.com](http:/
 
 ## License
 
-droid4me.ext is available under the MIT license. See the LICENSE file for more info.
+backgrounddetector is available under the MIT license. See the LICENSE file for more info.
 
 
 
