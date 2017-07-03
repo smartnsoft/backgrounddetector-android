@@ -36,7 +36,7 @@ allprojects
 Then, you can add the following line into the `dependencies` bloc of your `build.gradle` module file :
 
 ```groovy
-compile ("com.smartnsoft:backgrounddetector:1.2")
+compile ("com.smartnsoft:backgrounddetector:1.3")
 ```
 
 **Maven**
@@ -45,7 +45,7 @@ compile ("com.smartnsoft:backgrounddetector:1.2")
 <dependency>
   <groupId>com.smartnsoft</groupId>
   <artifactId>backgrounddetector</artifactId>
-  <version>1.2</version>
+  <version>1.3</version>
 </dependency>
 ```
 
