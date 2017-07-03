@@ -1,0 +1,172 @@
+apply plugin: "com.android.library"
+apply plugin: "com.jfrog.bintray"
+apply plugin: "maven"
+apply plugin: "maven-publish"
+
+android
+{
+  compileSdkVersion 25
+  buildToolsVersion "25.0.3"
+
+  defaultConfig
+  {
+    minSdkVersion 9
+    targetSdkVersion 25
+
+    versionCode = 3
+    versionName = "1.3"
+  }
+
+  buildTypes
+  {
+    release
+    {
+      minifyEnabled false
+      zipAlignEnabled  true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), ("proguard-rules.pro")
+    }
+  }
+}
+
+dependencies
+{
+  compile ("com.android.support:appcompat-v7:25.3.1")
+}
+
+
+task sourcesJar(type: Jar) {
+  classifier = "sources"
+  from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+  title = "backgroundDetector API"
+  description "Javadoc for the backgroundDetector component"
+  source = android.sourceSets.main.java.srcDirs
+
+  options.charSet = "UTF-8"
+  options.overview = "src/main/javadoc/overview.html"
+  options.links = ["http://docs.oracle.com/javase/7/docs/api/", "http://d.android.com/reference/"]
+
+  classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+  failOnError = false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = "javadoc"
+  from javadoc.destinationDir
+  // options.encoding = 'UTF-8'
+}
+
+artifacts
+{
+  archives javadocJar
+  archives sourcesJar
+}
+
+def pomConfig = {
+  licenses
+  {
+    license
+    {
+      name "MIT License (MIT)"
+      url "https://opensource.org/licenses/MIT"
+      distribution "repo"
+    }
+  }
+}
+
+publishing
+{
+  publications
+  {
+    ReleasePublication(MavenPublication)
+    {
+      artifact sourcesJar
+      artifact javadocJar
+      groupId "com.smartnsoft"
+      artifactId "backgrounddetector"
+      version android.defaultConfig.versionName
+
+      pom.withXml
+      {
+        def root = asNode()
+        root.appendNode("description", "Small component that detects if an application goes to background or foreground")
+        root.appendNode("name", "backgrounddetector")
+        root.appendNode("url", "https://github.com/smartnsoft/backgroundDetector-android")
+        root.children().last() + pomConfig
+      }
+    }
+  }
+}
+
+//https://gist.github.com/bugs84/b7887fb5d7f9f2d484b8
+publishing.publications.all
+{
+  pom.withXml
+  {
+    asNode().dependencies."*".findAll()
+    {
+      it.scope.text() == "runtime" && project.configurations.compile.allDependencies.find { dep ->
+        dep.name == it.artifactId.text()
+      }
+    }.each
+    {
+      it.scope*.value = "compile"
+    }
+  }
+}
+
+bintray
+{
+  user = bintrayUsername
+  key = bintrayKey
+
+  publications = ["ReleasePublication"]
+
+  pkg
+  {
+    repo = "maven"
+    name = "backgrounddetector"
+    userOrg = "smartnsoft"
+    licenses = ["MIT"]
+    vcsUrl = "https://github.com/smartnsoft/backgroundDetector-android.git"
+    publish = true
+
+    version
+    {
+      name = android.defaultConfig.versionName
+      desc = "Small component that detects if an application goes to background or foreground"
+      released  = new Date()
+      vcsTag = "backgrounddetector-" + android.defaultConfig.versionName
+    }
+  }
+}
+
+uploadArchives
+{
+  repositories
+  {
+    mavenDeployer
+    {
+      repository(url: "https://api.bintray.com/maven/smartnsoft/maven/backgrounddetector/;publish=1")
+      {
+        authentication(userName: bintrayUsername, password: bintrayKey)
+      }
+
+      snapshotRepository(url: nexusSnapshotUrl)
+      {
+        authentication(userName: nexusUsername, password: nexusPassword)
+      }
+
+      pom.project
+      {
+        name "backgrounddetector"
+        groupId "com.smartnsoft"
+        artifactId "backgrounddetector"
+        version android.defaultConfig.versionName
+        packaging "aar"
+      }
+    }
+  }
+}
