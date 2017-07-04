@@ -6,40 +6,15 @@ This version of the library has no additional dependencies.
 
 ## Usage
 
-### From the Smart&Soft Nexus
+Library releases are available on JCenter
 
-/!\ Library releases are **NOT** available on Maven Central /!\
-
-**Gradle**
-
-Because the library is available only on the Smart&Soft Nexus, you have to add the following lines to your `build.gradle` project file :
-
-```groovy
-allprojects
-{
-  repositories
-  {
-    maven
-    {
-      credentials
-      {
-        username nexusUsername
-        password nexusPassword
-      }
-      
-      url nexusRepositoryUrl
-    }
-  }
-}
-```
-
-Then, you can add the following line into the `dependencies` bloc of your `build.gradle` module file :
+### Gradle
 
 ```groovy
 compile ("com.smartnsoft:backgrounddetector:1.3")
 ```
 
-**Maven**
+### Maven
 
 ```xml
 <dependency>
