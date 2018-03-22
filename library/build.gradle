@@ -145,7 +145,7 @@ uploadArchives
   {
     mavenDeployer
     {
-      repository(url: "https://api.bintray.com/maven/smartnsoft/maven/layoutInflator/;publish=1")
+      repository(url: "https://api.bintray.com/maven/smartnsoft/maven/backgrounddetector/;publish=1")
       {
         authentication(userName: findProperty("bintrayUsername") ?: "", password: findProperty("bintrayKey") ?: "")
       }
