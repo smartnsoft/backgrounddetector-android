@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android
 {
@@ -8,11 +8,13 @@ android
   {
     applicationId "com.smartnsoft.backgrounddetector.sample"
 
-    minSdkVersion 16
+    minSdkVersion 18
     targetSdkVersion 27
 
     versionCode 1
     versionName "1.0"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
 
   buildTypes
@@ -20,14 +22,19 @@ android
     release
     {
       minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
     }
   }
 }
 
 dependencies
 {
-  implementation ("com.android.support:appcompat-v7:27.1.0")
+  implementation("com.android.support:appcompat-v7:27.1.0")
 
   implementation(project(":library"))
+
+  //tests
+  androidTestImplementation("com.android.support.test.espresso:espresso-core:3.0.1")
+  androidTestImplementation("com.android.support.test.uiautomator:uiautomator-v18:2.1.1")
+  androidTestImplementation("com.android.support.test:runner:1.0.1")
 }

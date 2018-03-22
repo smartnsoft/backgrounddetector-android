@@ -82,13 +82,13 @@ public final class CustomApplication
   @Override
   public void onAppGoesToBackground(Context context)
   {
-    Toast.makeText(this, "onAppGoesToBackground", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "onAppGoesToBackground", Toast.LENGTH_LONG).show();
   }
 
   @Override
   public void onAppGoesToForeground(Context context)
   {
-    Toast.makeText(this, "onAppGoesToForeground", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "onAppGoesToForeground", Toast.LENGTH_LONG).show();
   }
 
 }
