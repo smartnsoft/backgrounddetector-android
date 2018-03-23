@@ -3,6 +3,7 @@
 [![TeamCity status](https://ci.smartnsoft.com/app/rest/builds/buildType(id:smartnsoft_backgrounddetector_android)/statusIcon)](https://ci.smartnsoft.com/viewType.html?buildTypeId=smartnsoft_backgrounddetector_android)
 
 # Background Detector
+![image](https://raw.githubusercontent.com/smartnsoft/backgrounddetector-android/master/banner.png)
 
 A simple component you can integrate into your Android app in order to detect if the app goes to background or foreground
 
