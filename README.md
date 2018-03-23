@@ -283,7 +283,7 @@ public final class ApplicationNameInterceptor
 
 ## Download
 
-To add SmartLayoutInflator to your project, include the following in your **app module** `build.gradle` file:
+To add Background Detector to your project, include the following in your **app module** `build.gradle` file:
 
 ```groovy
 implementation ("com.smartnsoft:backgrounddetector:${latest.version}")
