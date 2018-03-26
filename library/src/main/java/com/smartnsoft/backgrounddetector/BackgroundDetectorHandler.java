@@ -25,8 +25,11 @@ package com.smartnsoft.backgrounddetector;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 
 /**
+ * The handler to use in order to count the activities
+ *
  * @author Ludovic Roland
  * @since 2015.12.08
  */
@@ -34,28 +37,57 @@ public final class BackgroundDetectorHandler
     extends Handler
 {
 
+  /**
+   * Interface definition for a callbackto be invoked when app goes to foreground or background
+   */
   public interface OnVisibilityChangedListener
   {
 
-    void onAppGoesToBackground(Context context);
+    /**
+     * Called when the app goes to foreground
+     *
+     * @param context the context passed to the {@link BackgroundDetectorHandler#onActivityPaused(Context)} or {@link BackgroundDetectorHandler#onActivityResumed(Context)} (Context)} methods.
+     */
+    void onAppGoesToBackground(@Nullable Context context);
 
-    void onAppGoesToForeground(Context context);
+    /**
+     * Called when the app goes to background
+     *
+     * @param context the context passed to the {@link BackgroundDetectorHandler#onActivityPaused(Context)} or {@link BackgroundDetectorHandler#onActivityResumed(Context)} (Context)} methods.
+     */
+    void onAppGoesToForeground(@Nullable Context context);
   }
 
+  /**
+   * Flag used to say that an activity has been resumed
+   */
   public static final int ON_ACTIVITY_RESUMED = 0;
 
+  /**
+   * Flag used to say that an activity has been paused
+   */
   public static final int ON_ACTIVITY_PAUSED = ON_ACTIVITY_RESUMED + 1;
 
   private static final int VISIBILITY_DELAY_IN_MS = 300;
 
   private int activityCounter = 0;
 
-  public BackgroundDetectorHandler(BackgroundDetectorCallback callback)
+  /**
+   * {@inheritDoc}
+   */
+  public BackgroundDetectorHandler(@Nullable BackgroundDetectorCallback callback)
   {
     super(callback);
   }
 
-  public void onActivityResumed(Context context)
+  /**
+   * Calling this method signals the library that an activity is made resumed.
+   * The library keeps a counter and when at least one page of the application becomes visible,
+   * the {@link OnVisibilityChangedListener#onAppGoesToForeground(Context)} method is called.
+   *
+   * @param context a context that can be used later in the {@link OnVisibilityChangedListener#onAppGoesToForeground(Context)} method
+   */
+  public void onActivityResumed(@Nullable Context context)
   {
     activityCounter++;
 
@@ -71,6 +103,13 @@ public final class BackgroundDetectorHandler
     }
   }
 
+  /**
+   * Calling this method signals the library that an activity is made paused.
+   * The library keeps a counter and when all pages of the application become invisible, the
+   * the {@link OnVisibilityChangedListener#onAppGoesToBackground(Context)} (Context)} method is called.
+   *
+   * @param context a context that can be used later in the {@link OnVisibilityChangedListener#onAppGoesToBackground(Context)} method
+   */
   public void onActivityPaused(Context context)
   {
     activityCounter--;

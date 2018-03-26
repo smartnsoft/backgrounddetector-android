@@ -22,13 +22,16 @@
 
 package com.smartnsoft.backgrounddetector;
 
-import com.smartnsoft.backgrounddetector.BackgroundDetectorHandler.OnVisibilityChangedListener;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
+
+import com.smartnsoft.backgrounddetector.BackgroundDetectorHandler.OnVisibilityChangedListener;
 
 /**
+ * Callback interface use when instantiating the {@link BackgroundDetectorHandler}.
+ *
  * @author Ludovic Roland
  * @since 2015.12.08
  */
@@ -50,17 +53,21 @@ public final class BackgroundDetectorCallback
     this(defaultVisibility, null);
   }
 
-  public BackgroundDetectorCallback(OnVisibilityChangedListener onVisibilityChangedListener)
+  public BackgroundDetectorCallback(@Nullable OnVisibilityChangedListener onVisibilityChangedListener)
   {
     this(BackgroundDetectorHandler.ON_ACTIVITY_RESUMED, onVisibilityChangedListener);
   }
 
-  public BackgroundDetectorCallback(int defaultVisibility, OnVisibilityChangedListener onVisibilityChangedListener)
+  public BackgroundDetectorCallback(int defaultVisibility,
+      @Nullable OnVisibilityChangedListener onVisibilityChangedListener)
   {
     previousVisibility = defaultVisibility;
     this.onVisibilityChangedListener = onVisibilityChangedListener;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean handleMessage(Message message)
   {
@@ -84,16 +91,25 @@ public final class BackgroundDetectorCallback
     return true;
   }
 
+  @Nullable
   public OnVisibilityChangedListener getOnVisibilityChangedListener()
   {
     return onVisibilityChangedListener;
   }
 
-  public void registerOnVisibilityChangedListener(OnVisibilityChangedListener onVisibilityChangedListener)
+  /**
+   * Set a new {@link OnVisibilityChangedListener} which will be called when the app goes to foreground of background.
+   *
+   * @param onVisibilityChangedListener the listener to set
+   */
+  public void registerOnVisibilityChangedListener(@Nullable OnVisibilityChangedListener onVisibilityChangedListener)
   {
     this.onVisibilityChangedListener = onVisibilityChangedListener;
   }
 
+  /**
+   * Remove the {@link OnVisibilityChangedListener} object that was previously registered with {@link #registerOnVisibilityChangedListener(OnVisibilityChangedListener)}
+   */
   public void unregisterOnVisibilityChangedListener()
   {
     onVisibilityChangedListener = null;
